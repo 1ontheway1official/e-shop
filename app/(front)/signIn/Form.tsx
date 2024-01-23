@@ -1,6 +1,7 @@
 "use client";
 
 import { signIn, useSession } from "next-auth/react";
+import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -39,7 +40,7 @@ const Form = () => {
   };
 
   return (
-    <div className="max-w-sm mx-auto card bg-base-300 my-4">
+    <div className="max-w-sm mx-auto my-4 card bg-base-300">
       <div className="card-body">
         <h1 className="card-title">Sign In</h1>
         {params.get("error") && (
@@ -67,7 +68,7 @@ const Form = () => {
                   message: "Email is invalid",
                 },
               })}
-              className="input input-bordered w-full max-w-sm"
+              className="w-full max-w-sm input input-bordered"
             />
             {errors.email?.message && (
               <div className="text-error">{errors.email.message}</div>
@@ -83,7 +84,7 @@ const Form = () => {
               {...register("password", {
                 required: "Password is required",
               })}
-              className="input input-bordered w-full max-w-sm"
+              className="w-full max-w-sm input input-bordered"
             />
             {errors.password?.message && (
               <div className="text-error">{errors.password.message}</div>
@@ -93,7 +94,7 @@ const Form = () => {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="btn btn-primary w-full"
+              className="w-full btn btn-primary"
             >
               {isSubmitting && (
                 <span className="loading loading-spinner"></span>
@@ -102,6 +103,12 @@ const Form = () => {
             </button>
           </div>
         </form>
+        <div>
+          Need an account?{" "}
+          <Link className="link" href={`/register?callbackUrl=${callbackUrl}`}>
+            Register
+          </Link>
+        </div>
       </div>
     </div>
   );

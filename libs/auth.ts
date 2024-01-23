@@ -1,5 +1,5 @@
-import bcrypt from "bcryptjs";
 import CredentialsProvider from "next-auth/providers/credentials";
+import bcrypt from "bcryptjs";
 import dbConnect from "./dbConnect";
 import UserModel from "./models/UserModel";
 import NextAuth from "next-auth";
@@ -15,7 +15,7 @@ export const config = {
       },
       async authorize(credentials) {
         await dbConnect();
-        if (credentials === null) return null;
+        if (credentials == null) return null;
 
         const user = await UserModel.findOne({ email: credentials.email });
 
@@ -28,15 +28,14 @@ export const config = {
             return user;
           }
         }
-
         return null;
       },
     }),
   ],
   pages: {
-    signIn: "/signIn",
+    signIn: "/signin",
     newUser: "/register",
-    error: "/signIn",
+    error: "/signin",
   },
   callbacks: {
     authorized({ request, auth }: any) {
@@ -62,7 +61,6 @@ export const config = {
           isAdmin: user.isAdmin,
         };
       }
-
       if (trigger === "update" && session) {
         token.user = {
           ...token.user,
@@ -72,7 +70,7 @@ export const config = {
       }
       return token;
     },
-    session: async ({ session, token }: any) => {
+    async session({ session, token }: any) {
       if (token) {
         session.user = token.user;
       }
